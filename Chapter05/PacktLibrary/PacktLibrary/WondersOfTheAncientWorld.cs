@@ -1,14 +1,16 @@
 ﻿namespace Packt.Shared
 {
-    public enum WondersOfTheAncientWorld
+    [System.Flags]
+    public enum WondersOfTheAncientWorld : byte
     {
-        GreatPyramidOfGiza,
-        HangingGardensOfBabylon = 2,
-        StatueOfZeusAtOlympia = 3,
-        TempleOfArtemisAtEphesus = 4,
-        MausoleumAtHalicarnassus = 5,
-        ColossusOfRhodes = 6,
-        LighthouseOfAlexandria = 7
+        None = 0b_0000_0000, // i.e. 0
+        GreatPyramidOfGiza = 0b_0000_0001, // i.e. 1
+        HangingGardensOfBabylon = 0b_0000_0010, // i.e. 2
+        StatueOfZeusAtOlympia = 0b_0000_0100, // i.e. 4
+        TempleOfArtemisAtEphesus = 0b_0000_1000, // i.e. 8
+        MausoleumAtHalicarnassus = 0b_0001_0000, // i.e. 16
+        ColossusOfRhodes = 0b_0010_0000, // i.e. 32
+        LighthouseOfAlexandria = 0b_0100_0000 // i.e. 64
     }
 }
 
