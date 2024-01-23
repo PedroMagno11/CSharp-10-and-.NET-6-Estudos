@@ -160,3 +160,66 @@ WriteLine($"Sam's second child is {sam.Children[1].Name}");
 WriteLine($"Sam's first child is {sam[0].Name}");
 WriteLine($"Sam's second child is {sam[1].Name}");
 
+object[] passengers = {
+    new FirstClassPassenger { AirMiles = 1_419 },
+    new FirstClassPassenger { AirMiles = 16_562 },
+    new BusinessClassPassenger(),
+    new CoachClassPassenger { CarryOnKG = 25.7 },
+    new CoachClassPassenger { CarryOnKG = 0 },
+};
+
+foreach( object passenger in passengers)
+{
+    // Syntax do C# 8
+    //decimal flightCost = passenger switch
+    //{
+    //    FirstClassPassenger p when p.AirMiles > 35000 => 1500M,
+    //    FirstClassPassenger p when p.AirMiles > 15000 => 1750M,
+    //    FirstClassPassenger _ => 2000M,
+    //    BusinessClassPassenger _ => 1000M,
+    //    CoachClassPassenger p when p.CarryOnKG < 10.0 => 500M,
+    //    CoachClassPassenger _ => 650M,
+    //    _ => 800M
+    //};
+
+    // Syntax do C# 9 em diante
+    decimal flightCost = passenger switch
+    {
+        FirstClassPassenger p => p.AirMiles switch
+        {
+            > 35000 => 1500M,
+            > 15000 => 1750M,
+            _ => 2000M
+        },
+        BusinessClassPassenger => 1000M,
+        CoachClassPassenger p when p.CarryOnKG < 10.0 => 500M,
+        CoachClassPassenger => 650M,
+        _ => 800M
+    };
+    WriteLine($"Flight costs {flightCost:C} for {passenger}");
+}
+
+ImmutablePerson jeff = new() 
+{
+    FirstName = "Jeff",
+    LastName = "Winger"
+};
+
+
+//jeff.FirstName = "Geoff";
+
+ImmutableVehicle car = new()
+{
+    Brand = "Mazda MX-5 RF",
+    Color = "Soul Red Crystal Metallic",
+    Wheels = 4
+};
+
+ImmutableVehicle repaintedCar = car with { Color = "Polymetal Grey Metallic" };
+
+WriteLine($"Original car color was {car.Color}.");
+WriteLine($"New car color is {repaintedCar.Color}.");
+
+ImmutableAnimal oscar = new("Oscar", "Labrador");
+var (who, what) = oscar; // calls Deconstruct method
+WriteLine($"{who} is a {what}.");
